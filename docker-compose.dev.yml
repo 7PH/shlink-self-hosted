@@ -1,4 +1,4 @@
 services:
-    traefik:
+    shlink_traefik:
         ports:
             - 8086:8080

@@ -1,17 +1,15 @@
 http:
     routers:
-        # api.shlink.xxx/
-        shlink_api:
-            service: shlink_api@file
+        shlink_server:
+            service: shlink_server@file
             entrypoints: web
             rule: "Host(`{{ env "PUBLIC_SHLINK_API_HOST" }}`) && PathPrefix(`/`)"
             {{ if env "USE_TLS" }}
             tls:
                 certResolver: letsencrypt
             {{ end }}
-        # shlink.xxx/
-        shlink_client:
-            service: shlink_client@file
+        shlink:
+            service: shlink@file
             entrypoints: web
             rule: "Host(`{{ env "PUBLIC_SHLINK_CLIENT_HOST" }}`) && PathPrefix(`/`)"
             {{ if env "USE_TLS" }}
@@ -19,11 +17,11 @@ http:
                 certResolver: letsencrypt
             {{ end }}
     services:
-        shlink_api:
+        shlink_server:
             loadBalancer:
                 servers:
-                    - url: "http://shlink_api:8080"
-        shlink_client:
+                    - url: "http://shlink_server:8080"
+        shlink:
             loadBalancer:
                 servers:
-                    - url: "http://shlink_client:8080"
+                    - url: "http://shlink:8080"

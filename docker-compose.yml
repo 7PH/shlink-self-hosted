@@ -1,7 +1,7 @@
 services:
-    traefik:
+    shlink_traefik:
         image: traefik:v2.9
-        container_name: traefik_website
+        container_name: shlink_traefik
         command:
             - "--log.level=DEBUG"
             - "--entrypoints.web.address=:${PUBLIC_PORT}"
@@ -28,8 +28,8 @@ services:
         security_opt:
             - "no-new-privileges:true"
 
-    shlink_api:
-        container_name: shlink_api
+    shlink_server:
+        container_name: shlink_server
         image: shlinkio/shlink:stable
         restart: always
         environment:
@@ -38,14 +38,14 @@ services:
             INITIAL_API_KEY: "${SHLINK_SERVER_API_KEY}"
             GEOLITE_LICENSE_KEY: "${SHLINK_GEOLITE_LICENSE_KEY}"
             DB_DRIVER: postgres
-            DB_HOST: shlink_db
+            DB_HOST: shlink_database
             DB_USER: "${SHLINK_DB_USER}"
             DB_PASSWORD: "${SHLINK_DB_PASSWORD}"
         depends_on:
-            - shlink_db
+            - shlink_database
 
-    shlink_db:
-        container_name: shlink_db
+    shlink_database:
+        container_name: shlink_database
         image: postgres:15.1-alpine
         restart: always
         environment:
@@ -56,14 +56,15 @@ services:
             - ./data/database:/var/lib/postgresql/data:rw
         user: ${DOCKER_UID}:${DOCKER_GID}
 
-    shlink_client:
-        container_name: shlink_client
-        image: shlinkio/shlink-web-client:latest
+    shlink:
+        container_name: shlink
+        image: shlinkio/shlink-web-client:4
         restart: always
         environment:
             SHLINK_SERVER_URL: "${SHLINK_SERVER_URL}"
             SHLINK_SERVER_API_KEY: "${SHLINK_SERVER_API_KEY}"
-            SHLINK_SERVER_NAME: "Shlink"
+        depends_on:
+            - shlink_server
 
 volumes:
     letsencrypt:
