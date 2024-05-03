@@ -1,14 +1,23 @@
 # Self-hosted Shlink
 
-This repository lets you have a containerized [Shlink](https://github.com/shlinkio/shlink) instance up and running in no time with automatic TLS certificate from [Let's Encrypt](https://letsencrypt.org/)
+Have a [Shlink](https://github.com/shlinkio/shlink) instance up and running in no time with automatic TLS certificate from [Let's Encrypt](https://letsencrypt.org/)
 
 ## Install
 
-```bash
-git clone https://github.com/7PH/shlink-self-hosted.git
-cd shlink-self-hosted
+1. Setup the project
 
-bash script/setup.sh
+   ```bash
+   git clone https://github.com/7PH/shlink-self-hosted.git
+   cd shlink-self-hosted
 
-bash script/start.sh
-```
+   bash script/setup.sh
+   ```
+
+2. Modify .env with values that fit your use-case
+   ```bash
+   nano .env
+   ```
+3. Run your instance
+   ```
+   bash script/start.sh
+   ```
