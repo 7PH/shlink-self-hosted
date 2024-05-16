@@ -16,6 +16,16 @@ http:
             tls:
                 certResolver: letsencrypt
             {{ end }}
+            {{ if env "BASIC_AUTH" }}
+            middlewares:
+                - simpleauth
+            {{ end }}
+    # Middlewares
+    middlewares:
+        simpleauth:
+            basicAuth:
+                users:
+                    - "{{ env "BASIC_AUTH" }}"
     services:
         shlink_server:
             loadBalancer:

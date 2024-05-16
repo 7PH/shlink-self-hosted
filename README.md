@@ -13,7 +13,8 @@ Have a [Shlink](https://github.com/shlinkio/shlink) instance up and running in n
    bash script/setup.sh
    ```
 
-2. Modify .env with values that fit your use-case
+2. Modify .env with values that fit your use-case.
+   Do not forget to set up BASIC_AUTH, otherwise anyone with knowledge of the client URL can get the API key of your server.
    ```bash
    nano .env
    ```
